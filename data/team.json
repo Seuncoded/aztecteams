@@ -1,0 +1,191 @@
+[
+  {
+    "name": "Zac Williamson",
+    "handle": "Zac_Aztec",
+    "role_title": "CEO",
+    "department": "Leadership",
+    "avatar_url": "https://unavatar.io/twitter/Zac_Aztec",
+    "links": { "twitter": "https://twitter.com/Zac_Aztec", "github": "" },
+    "story": "Zac has been pushing zero-knowledge research since before most people knew what zk meant. As CEO, he’s leading Aztec toward a future where Ethereum can be both programmable and private."
+  },
+  {
+    "name": "Joe Andrews",
+    "handle": "jaosef",
+    "role_title": "President & Co-founder",
+    "department": "Leadership",
+    "avatar_url": "https://unavatar.io/twitter/jaosef",
+    "links": { "twitter": "https://twitter.com/jaosef", "github": "" },
+    "story": "Joe blends strategy with deep product sense. He connects Aztec’s technical breakthroughs to a bigger mission: building the privacy layer that makes Ethereum unstoppable."
+  },
+  {
+    "name": "Lisa Cuesta Bunin",
+    "handle": "lisacuesta",
+    "role_title": "COO",
+    "department": "Leadership",
+    "avatar_url": "https://unavatar.io/twitter/lisacuesta",
+    "links": { "twitter": "https://twitter.com/lisacuesta", "github": "" },
+    "story": "Lisa keeps Aztec’s engine running. With experience in SaaS and venture, she ensures the team has the structure and support to scale privacy-first infrastructure globally."
+  },
+  {
+    "name": "Claire Kart",
+    "handle": "clairekart",
+    "role_title": "CMO",
+    "department": "Marketing",
+    "avatar_url": "https://unavatar.io/twitter/clairekart",
+    "links": { "twitter": "https://twitter.com/clairekart", "github": "" },
+    "story": "Claire is the storyteller behind Aztec. She translates complex cryptography into narratives that resonate with people and helps the world see why privacy on-chain matters."
+  },
+  {
+    "name": "Andre Omietanski",
+    "handle": "punk6052",
+    "role_title": "General Counsel",
+    "department": "Legal",
+    "avatar_url": "https://unavatar.io/twitter/punk6052",
+    "links": { "twitter": "https://twitter.com/punk6052", "github": "" },
+    "story": "Andre is Aztec’s legal compass. He navigates the uncertain waters of regulation and decentralization, ensuring Aztec can push boundaries while staying grounded in compliance."
+  },
+  {
+    "name": "Alejo Amiras",
+    "handle": "alejoamiras",
+    "role_title": "Ecosystem Lead",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/alejoamiras",
+    "links": { "twitter": "https://twitter.com/alejoamiras", "github": "" },
+    "story": "Alejo is focused on growing Aztec’s ecosystem. He works with builders and communities to bring real apps onto the network and make programmable privacy accessible to everyone."
+  },
+  {
+    "name": "Pedro",
+    "handle": "zkpedrongmi",
+    "role_title": "DevRel Engineer",
+    "department": "DevRel",
+    "avatar_url": "https://unavatar.io/twitter/zkpedrongmi",
+    "links": { "twitter": "https://twitter.com/zkpedrongmi", "github": "" },
+    "story": "Pedro lives and breathes developer experience. As DevRel engineer, he helps builders get hands-on with Noir and the Aztec stack, turning ideas into live zk-powered apps."
+  },
+  {
+    "name": "Kelsey Ruiz",
+    "handle": "KelseyRuiz_",
+    "role_title": "Head of Comms",
+    "department": "Marketing",
+    "avatar_url": "https://unavatar.io/twitter/KelseyRuiz_",
+    "links": { "twitter": "https://twitter.com/KelseyRuiz_", "github": "" },
+    "story": "Kelsey drives communications at Aztec. From press to community messaging, she makes sure Aztec’s voice is clear, consistent, and inspiring across the entire crypto space."
+  },
+  {
+    "name": "Steve Kenny",
+    "handle": "stakedeve",
+    "role_title": "Head of BD",
+    "department": "Business",
+    "avatar_url": "https://unavatar.io/twitter/stakedeve",
+    "links": { "twitter": "https://twitter.com/stakedeve", "github": "" },
+    "story": "Steve leads business development, forging partnerships that align with Aztec’s mission. He’s focused on building bridges with projects that value privacy and decentralization."
+  },
+  {
+    "name": "Amin",
+    "handle": "Amin_3X",
+    "role_title": "Decentralization Lead",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/Amin_3X",
+    "links": { "twitter": "https://twitter.com/Amin_3X", "github": "" },
+    "story": "Amin is shaping how Aztec decentralizes. He coordinates validators and node operators, ensuring the network grows stronger and more resilient every step of the way."
+  },
+  {
+    "name": "David Steinrueck",
+    "handle": "DavidSteinrueck",
+    "role_title": "Product Marketing Lead",
+    "department": "Marketing",
+    "avatar_url": "https://unavatar.io/twitter/DavidSteinrueck",
+    "links": { "twitter": "https://twitter.com/DavidSteinrueck", "github": "" },
+    "story": "David makes Aztec’s products understandable. He connects features to user benefits and makes sure the narrative highlights how privacy-first infrastructure changes everything."
+  },
+  {
+    "name": "Jake Schaeffer",
+    "handle": "jschxyz",
+    "role_title": "PMM (Noir)",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/jschxyz",
+    "links": { "twitter": "https://twitter.com/jschxyz", "github": "" },
+    "story": "Jake is all about Noir. As PMM, he helps developers and the world understand why Aztec’s zk language is a game-changer for private-by-default applications."
+  },
+  {
+    "name": "Harsh Bajpai",
+    "handle": "bajpaiharsh244",
+    "role_title": "Growth / Acceleration",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/bajpaiharsh244",
+    "links": { "twitter": "https://twitter.com/bajpaiharsh244", "github": "" },
+    "story": "Harsh drives growth at Aztec. From engaging with communities to helping projects accelerate, he’s focused on making privacy-first crypto impossible to ignore."
+  },
+  {
+    "name": "Arnaud Schenk",
+    "handle": "_ArnaudS_",
+    "role_title": "Steward (Aztec & Noir)",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/_ArnaudS_",
+    "links": { "twitter": "https://twitter.com/_ArnaudS_", "github": "" },
+    "story": "Arnaud is a steward of both Aztec and Noir. He focuses on governance, ecosystem building, and ensuring Aztec’s vision is carried forward with integrity and impact."
+  },
+  {
+    "name": "Josh Crites",
+    "handle": "critesjosh_",
+    "role_title": "Growth",
+    "department": "Marketing",
+    "avatar_url": "https://unavatar.io/twitter/critesjosh_",
+    "links": { "twitter": "https://twitter.com/critesjosh_", "github": "" },
+    "story": "Josh is on the frontlines of Aztec’s growth. He builds relationships, spreads the privacy message, and helps ensure Aztec reaches the audiences that matter most."
+  },
+  {
+    "name": "0xRahul",
+    "handle": "omw_to_the_moon",
+    "role_title": "Senior Product (Testnet)",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/omw_to_the_moon",
+    "links": { "twitter": "https://twitter.com/omw_to_the_moon", "github": "" },
+    "story": "Rahul is leading Aztec’s testnet efforts. He ensures the protocol is stress-tested, secure, and ready for the demands of scaling privacy to millions of users."
+  },
+  {
+    "name": "Savio",
+    "handle": "Savio_Sou_",
+    "role_title": "Product Manager (Noir)",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/Savio_Sou_",
+    "links": { "twitter": "https://twitter.com/Savio_Sou_", "github": "" },
+    "story": "Savio is a product manager for Noir, Aztec’s zk language. He bridges cryptography and usability, making sure developers can build private apps without friction."
+  },
+  {
+    "name": "Hazbobo",
+    "handle": "Hazbobo1",
+    "role_title": "Advisor",
+    "department": "Product",
+    "avatar_url": "https://unavatar.io/twitter/Hazbobo1",
+    "links": { "twitter": "https://twitter.com/Hazbobo1", "github": "" },
+    "story": "Hazbobo advises Aztec on strategy and product direction. With a history in DeFi, he brings perspective to how privacy can reshape finance and beyond."
+  },
+  {
+    "name": "Amal Ibraymi",
+    "handle": "TheOtherAmal",
+    "role_title": "Legal",
+    "department": "Legal",
+    "avatar_url": "https://unavatar.io/twitter/TheOtherAmal",
+    "links": { "twitter": "https://twitter.com/TheOtherAmal", "github": "" },
+    "story": "Amal is part of the legal team, focused on protecting Aztec’s mission in a rapidly shifting regulatory environment. Privacy needs advocates, and Amal is one of them."
+  },
+  {
+    "name": "Saleel",
+    "handle": "_saleel",
+    "role_title": "Engineer / DevRel",
+    "department": "DevRel",
+    "avatar_url": "https://unavatar.io/twitter/_saleel",
+    "links": { "twitter": "https://twitter.com/_saleel", "github": "https://github.com/saleel" },
+    "story": "Saleel is both an engineer and DevRel. He codes, teaches, and supports builders who are experimenting with privacy tech and bringing Noir to life."
+  },
+  {
+    "name": "Roberto",
+    "handle": "realRoberto38",
+    "role_title": "Community Lead",
+    "department": "Community",
+    "avatar_url": "https://unavatar.io/twitter/realRoberto38",
+    "links": { "twitter": "https://twitter.com/realRoberto38", "github": "" },
+    "story": "Roberto is Aztec’s community lead. He connects with users daily, builds trust, and ensures the community has a voice in shaping the future of private Ethereum."
+  }
+]

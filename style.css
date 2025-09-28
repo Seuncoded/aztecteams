@@ -547,12 +547,21 @@ footer .built span {
   }
 
   /* Music Toggle */
-  #music-toggle {
-    bottom: 20px;
-    right: 20px;
-    font-size: 14px;
-    padding: 8px 12px;
-  }
+.music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: #c6ff00;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
 }
 
 /* Small screens */
@@ -592,3 +601,102 @@ footer .built span {
     font-size: 12px;
   }
 }
+
+
+/* Music toggle floating */
+.music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: #c6ff00;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.2s;
+}
+.music-toggle:hover {
+  background: #b0e800;
+}
+
+/* Card Titles */
+.card .name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #c6ff00; /* Neon style */
+  margin-bottom: 2px;
+}
+
+.card .meta {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Messages Modal */
+#view-messages-modal .modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.message-item {
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+.message-header {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-user {
+  font-weight: 600;
+  color: #c6ff00;
+}
+
+.message-time {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.message-content {
+  margin-top: 4px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Empty state */
+#messages-list p {
+  padding: 15px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  text-align: center;
+  color: #aaa;
+}
+
+/* Close button (same style as others) */
+.close-btn, #closeViewModal {
+  background: #c6ff00;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-btn:hover, #closeViewModal:hover {
+  background: #b0e800;
+}
+

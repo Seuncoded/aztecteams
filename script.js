@@ -1,13 +1,12 @@
-
+// Supabase init
 const supabaseUrl = "https://iqseolitspnpivflsxbu.supabase.co";
 const supabaseKey = "sb_publishable_KPlWlksn2us07U2d_FjqjQ_HdiY39IA";
 const db = supabase.createClient(supabaseUrl, supabaseKey);
 
 let teamData = [];
-let currentMemberId = null;
 let currentMemberName = null;
 
-
+/* Load JSON */
 fetch("data/team.json")
   .then((r) => r.json())
   .then((data) => {
@@ -15,7 +14,6 @@ fetch("data/team.json")
     renderTeam(teamData);
     setupFilters();
   });
-
 
 /* Render team */
 function renderTeam(list) {
@@ -38,42 +36,82 @@ function renderTeam(list) {
         ${member.links.github ? `<a href="${member.links.github}" target="_blank"><i class="fab fa-github"></i></a>` : ""}
       </div>
       <p class="story">${member.story}</p>
-      <button class="msg-btn" data-member-id="${member.id}" data-member-name="${member.name}">
+      <button class="msg-btn" data-member-name="${member.name}">
         <i class="fa-regular fa-comment-dots"></i> Leave a Message
       </button>
-      <button class="view-btn" data-member-id="${member.id}" data-member-name="${member.name}">
+      <button class="view-btn" data-member-name="${member.name}">
         <i class="fa-solid fa-inbox"></i> View Messages
       </button>
     `;
     grid.appendChild(card);
   });
 
-  // Correct event bindings
+  // attach events
   document.querySelectorAll(".msg-btn").forEach((btn) => {
     btn.addEventListener("click", () =>
-      openMessageForm(btn.dataset.memberId, btn.dataset.memberName)
+      openMessageForm(btn.dataset.memberName)
     );
   });
 
   document.querySelectorAll(".view-btn").forEach((btn) => {
     btn.addEventListener("click", () =>
-      openMessages(btn.dataset.memberId, btn.dataset.memberName) // ✅ FIX
+      openViewMessages(btn.dataset.memberName)
     );
   });
 }
 
+/* Open message modal */
+function openMessageForm(memberName) {
+  currentMemberName = memberName;
+  document.getElementById("modal-title").innerText = `Leave a message for ${memberName}`;
+  document.getElementById("message-modal").classList.remove("hidden");
+}
 
-function openMessages(memberId, memberName) {
-  currentMemberId = memberId;
+/* Close modal */
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("message-modal").classList.add("hidden");
+});
+
+/* Send message */
+document.getElementById("sendMessage").addEventListener("click", async () => {
+  const user_name = document.getElementById("username").value.trim();
+  const content = document.getElementById("message").value.trim();
+
+  if (!user_name || !content) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  console.log("Sending message to Supabase...");
+
+  const { error } = await db.from("aztec_messages").insert([
+    { member_name: currentMemberName, user_name, content },
+  ]);
+
+  if (error) {
+    console.error("Supabase insert error:", error);
+    alert("❌ Error saving message. Check console.");
+  } else {
+    alert("✅ Message sent!");
+    document.getElementById("message-modal").classList.add("hidden");
+    document.getElementById("username").value = "";
+    document.getElementById("message").value = "";
+  }
+});
+
+/* Open view messages */
+function openViewMessages(memberName) {
+  currentMemberName = memberName;
   document.getElementById("view-modal-title").innerText = `Messages for ${memberName}`;
   const list = document.getElementById("messages-list");
   list.innerHTML = "<p>Loading...</p>";
 
   document.getElementById("view-messages-modal").classList.remove("hidden");
 
+  // Fetch messages by member_name
   db.from("aztec_messages")
     .select("*")
-    .eq("member_id", memberId) // ✅ fetch only for the clicked member
+    .eq("member_name", memberName)
     .order("created_at", { ascending: false })
     .then(({ data, error }) => {
       if (error) {
@@ -88,13 +126,12 @@ function openMessages(memberId, memberName) {
       }
 
       list.innerHTML = "";
-      data.forEach((msg) => {
+      data.forEach(msg => {
         const item = document.createElement("div");
         item.className = "message-item";
         item.innerHTML = `
           <div class="message-header">
-            <strong class="message-user">${msg.user_name}</strong>
-            <span class="message-time">commented on ${new Date(msg.created_at).toLocaleDateString()}</span>
+            <strong class="message-user">${msg.user_name}</strong> commented on ${new Date(msg.created_at).toLocaleDateString()}
           </div>
           <div class="message-content">${msg.content}</div>
         `;
@@ -103,88 +140,12 @@ function openMessages(memberId, memberName) {
     });
 }
 
-document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("message-modal").classList.add("hidden");
-});
-
-
-document.getElementById("sendMessage").addEventListener("click", async () => {
-  const user_name = document.getElementById("username").value.trim();
-  const content = document.getElementById("message").value.trim();
-
-  if (!user_name || !content) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  console.log("Sending message to Supabase...");
-
-  const { error } = await db.from("aztec_messages").insert([
-    { member_id: currentMemberId, user_name, content },
-  ]);
-
-  if (error) {
-    console.error("Supabase insert error:", error);
-    alert("❌ Error saving message. Check console.");
-  } else {
-    alert("✅ Message sent!");
-    document.getElementById("message-modal").classList.add("hidden");
-    document.getElementById("username").value = "";
-    document.getElementById("message").value = "";
-  }
-});
-
-
-function openMessages(memberId, memberName) {
-  currentMemberId = memberId;
-  document.getElementById("view-modal-title").innerText = `Messages for ${memberName}`;
-  const list = document.getElementById("messages-list");
-  list.innerHTML = "<p>Loading...</p>";
-
-  document.getElementById("view-messages-modal").classList.remove("hidden");
-
-  
-  db.from("aztec_messages")
-    .select("*")
-    .eq("member_id", memberId)
-    .order("created_at", { ascending: false })
-    .then(({ data, error }) => {
-      if (error) {
-        list.innerHTML = "<p>❌ Failed to load messages.</p>";
-        console.error(error);
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        list.innerHTML = "<p>No messages yet.</p>";
-        return;
-      }
-
-list.innerHTML = "";
-data.forEach(msg => {
-  const item = document.createElement("div");
-  item.className = "message-item";
-  const date = new Date(msg.created_at).toLocaleDateString(undefined, {
-    year: "numeric", month: "short", day: "numeric"
-  });
-  item.innerHTML = `
-    <div class="message-header">
-      <span class="message-user">${msg.user_name}</span> commented on ${date}
-    </div>
-    <div class="message-content">${msg.content}</div>
-  `;
-  list.appendChild(item);
-});
-
-    });
-}
-
-
+// Close messages modal
 document.getElementById("closeViewModal").addEventListener("click", () => {
   document.getElementById("view-messages-modal").classList.add("hidden");
 });
 
-
+/* Filters */
 function setupFilters() {
   document.querySelectorAll(".filters button").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -225,47 +186,5 @@ window.addEventListener("scroll", () => {
   if (!statsStarted && statsSection.getBoundingClientRect().top < window.innerHeight) {
     animateStats();
     statsStarted = true;
-  }
-});
-
-function openViewMessages(memberId, memberName) {
-  currentMemberId = memberId;
-  document.getElementById("view-modal-title").innerText = `Messages for ${memberName}`;
-  const list = document.getElementById("messages-list");
-  list.innerHTML = "<p>Loading...</p>";
-
-  document.getElementById("view-messages-modal").classList.remove("hidden");
-  document.body.classList.add("modal-open"); // 
-
-
-}
-
-document.getElementById("closeViewModal").addEventListener("click", () => {
-  document.getElementById("view-messages-modal").classList.add("hidden");
-  document.body.classList.remove("modal-open"); // 
-});
-
-
-const bgMusic = document.getElementById("bg-music");
-const musicToggle = document.getElementById("music-toggle");
-
-
-document.addEventListener("click", () => {
-  if (bgMusic.muted) {
-    bgMusic.muted = false;
-    bgMusic.play();
-    musicToggle.innerHTML = "🔊 Music On";
-  }
-}, { once: true });
-
-
-musicToggle.addEventListener("click", () => {
-  if (bgMusic.muted || bgMusic.paused) {
-    bgMusic.muted = false;
-    bgMusic.play();
-    musicToggle.innerHTML = "🔊 Music On";
-  } else {
-    bgMusic.muted = true;
-    musicToggle.innerHTML = "🔇 Music Off";
   }
 });

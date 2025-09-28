@@ -610,3 +610,40 @@ footer .built span {
     padding: 7px;
   }
 }
+
+/* --- Responsive Modal Fix for Mobile --- */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;              /* keep inside screen */
+    max-width: 320px;        /* limit width */
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;             /* prevent overflow */
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .modal-content textarea {
+    min-height: 80px;        /* smaller height */
+  }
+
+  .modal-actions {
+    flex-direction: column;  /* stack buttons */
+    gap: 8px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+

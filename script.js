@@ -189,14 +189,19 @@ window.addEventListener("scroll", () => {
   }
 });
 
+// Music toggle
 const musicToggle = document.getElementById('music-toggle');
+const audio = document.getElementById('bg-music'); // use the <audio> element
 let musicPlaying = false;
-let audio = new Audio('music.mp3');
-audio.loop = true;  // keep looping
+
+// Ensure it starts muted
+audio.muted = true;
+audio.pause();
 
 musicToggle.addEventListener('click', () => {
   if (!musicPlaying) {
-    audio.play();
+    audio.muted = false;   // unmute
+    audio.play().catch(err => console.error("Playback failed:", err));
     musicPlaying = true;
     musicToggle.textContent = '🎵 Music On';
   } else {
@@ -205,4 +210,5 @@ musicToggle.addEventListener('click', () => {
     musicToggle.textContent = '🎵 Music Off';
   }
 });
+
 

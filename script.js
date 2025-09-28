@@ -188,3 +188,21 @@ window.addEventListener("scroll", () => {
     statsStarted = true;
   }
 });
+
+const musicToggle = document.getElementById('music-toggle');
+let musicPlaying = false;
+let audio = new Audio('music.mp3');
+audio.loop = true;  // keep looping
+
+musicToggle.addEventListener('click', () => {
+  if (!musicPlaying) {
+    audio.play();
+    musicPlaying = true;
+    musicToggle.textContent = '🎵 Music On';
+  } else {
+    audio.pause();
+    musicPlaying = false;
+    musicToggle.textContent = '🎵 Music Off';
+  }
+});
+

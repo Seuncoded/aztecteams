@@ -604,16 +604,22 @@ footer .built span {
 
 
 /* Music toggle floating */
+/* Hero actions row */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* Music button beside Explore Team */
 .music-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
   background: #c6ff00;
   color: #000;
   font-weight: bold;
   border: none;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -622,6 +628,7 @@ footer .built span {
 .music-toggle:hover {
   background: #b0e800;
 }
+
 
 /* Card Titles */
 .card .name {

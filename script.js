@@ -17,6 +17,7 @@ fetch("data/team.json")
   });
 
 
+/* Render team */
 function renderTeam(list) {
   const grid = document.getElementById("team-grid");
   grid.innerHTML = "";
@@ -47,7 +48,7 @@ function renderTeam(list) {
     grid.appendChild(card);
   });
 
-  // attach events
+  // Correct event bindings
   document.querySelectorAll(".msg-btn").forEach((btn) => {
     btn.addEventListener("click", () =>
       openMessageForm(btn.dataset.memberId, btn.dataset.memberName)
@@ -56,19 +57,51 @@ function renderTeam(list) {
 
   document.querySelectorAll(".view-btn").forEach((btn) => {
     btn.addEventListener("click", () =>
-      openMessages(btn.dataset.memberId, btn.dataset.memberName)
+      openMessages(btn.dataset.memberId, btn.dataset.memberName) // ✅ FIX
     );
   });
 }
 
 
-function openMessageForm(memberId, memberName) {
+function openMessages(memberId, memberName) {
   currentMemberId = memberId;
-  currentMemberName = memberName;
-  document.getElementById("modal-title").innerText = `Leave a message for ${memberName}`;
-  document.getElementById("message-modal").classList.remove("hidden");
-}
+  document.getElementById("view-modal-title").innerText = `Messages for ${memberName}`;
+  const list = document.getElementById("messages-list");
+  list.innerHTML = "<p>Loading...</p>";
 
+  document.getElementById("view-messages-modal").classList.remove("hidden");
+
+  db.from("aztec_messages")
+    .select("*")
+    .eq("member_id", memberId) // ✅ fetch only for the clicked member
+    .order("created_at", { ascending: false })
+    .then(({ data, error }) => {
+      if (error) {
+        list.innerHTML = "<p>❌ Failed to load messages.</p>";
+        console.error(error);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        list.innerHTML = "<p>No messages yet.</p>";
+        return;
+      }
+
+      list.innerHTML = "";
+      data.forEach((msg) => {
+        const item = document.createElement("div");
+        item.className = "message-item";
+        item.innerHTML = `
+          <div class="message-header">
+            <strong class="message-user">${msg.user_name}</strong>
+            <span class="message-time">commented on ${new Date(msg.created_at).toLocaleDateString()}</span>
+          </div>
+          <div class="message-content">${msg.content}</div>
+        `;
+        list.appendChild(item);
+      });
+    });
+}
 
 document.getElementById("closeModal").addEventListener("click", () => {
   document.getElementById("message-modal").classList.add("hidden");

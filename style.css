@@ -510,3 +510,103 @@ footer .built span {
   .card { padding: 12px; }
   .card button { font-size: 13px; padding: 8px; }
 }
+
+/* --- Compact Mobile Fix --- */
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 15px;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .cta-btn,
+  .music-toggle {
+    font-size: 0.85rem;
+    padding: 10px 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;  /* 1 card per row */
+    gap: 16px;
+    padding: 0 12px 20px;
+  }
+
+  .card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .card img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .card .name {
+    font-size: 1.1rem;
+  }
+
+  .card .meta {
+    font-size: 0.8rem;
+  }
+
+  .card .story {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+
+  .msg-btn,
+  .view-btn {
+    width: 100%;          /* full width buttons */
+    font-size: 0.85rem;
+    padding: 8px;
+    margin: 5px 0;
+  }
+
+  /* Stats section */
+  .stats {
+    flex-direction: column;
+    gap: 20px;
+    font-size: 1rem;
+    padding: 30px 10px;
+  }
+
+  .stats .count {
+    font-size: 1.5rem;
+  }
+
+  footer {
+    font-size: 0.75rem;
+    padding: 15px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.4rem;
+  }
+  .hero p {
+    font-size: 0.8rem;
+  }
+  .card .story {
+    font-size: 0.8rem;
+  }
+  .msg-btn,
+  .view-btn {
+    font-size: 0.8rem;
+    padding: 7px;
+  }
+}

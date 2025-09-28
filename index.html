@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AztecTeam Directory</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- 
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
 
+ 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
-
   <header class="hero">
     <h1>Meet the Builders of Programmable Privacy</h1>
     <p>The minds behind Aztec Network, Noir, and the future of private Ethereum.</p>
     <a href="#team" class="cta-btn">Explore Team</a>
   </header>
 
-  
+
   <section id="team" class="directory">
     <div class="filter-bar">
       <div class="filters">
@@ -35,29 +32,46 @@
         <button data-filter="Community">Community</button>
       </div>
     </div>
-
-   
     <div id="team-grid" class="grid"></div>
   </section>
 
-
+  <!-- Stats -->
   <section id="stats" class="stats">
-    <div class="stat">
-      <span class="count" data-target="8">8</span>+ years of research
-    </div>
-    <div class="stat">
-      <span class="count" data-target="20">20</span>+ builders
-    </div>
-    <div class="stat">
-      <span class="count" data-target="1000000">1000000</span>+ private transactions
-    </div>
+    <div class="stat"><span class="count" data-target="8">8</span>+ years of research</div>
+    <div class="stat"><span class="count" data-target="20">20</span>+ builders</div>
+    <div class="stat"><span class="count" data-target="1000000">1000000</span>+ private transactions</div>
   </section>
+
+  <!-- Message Modal -->
+  <div id="message-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modal-title">Leave a message</h2>
+      <input type="text" id="username" placeholder="Your name" />
+      <textarea id="message" placeholder="Write your message..."></textarea>
+      <div class="modal-actions">
+        <button id="sendMessage" class="btn send">Send</button>
+        <button id="closeModal" class="btn cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div id="view-messages-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="view-modal-title">Messages</h2>
+      <div id="messages-list" class="messages-list"></div>
+      <button id="closeViewModal" class="close-btn">Close</button>
+    </div>
+  </div>
+
+
+<audio id="bg-music" src="assets/hipjazz.mp3" autoplay loop muted></audio>
+<button id="music-toggle" class="music-btn">🔇 Music Off</button>
 
 
   <footer>
     <p class="built">⚡ Built by <span>Seuncoded</span></p>
   </footer>
- 
 
   <script src="script.js"></script>
 </body>

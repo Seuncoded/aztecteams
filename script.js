@@ -189,18 +189,31 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Music toggle
 const musicToggle = document.getElementById('music-toggle');
-const audio = document.getElementById('bg-music'); // use the <audio> element
+const audio = document.getElementById('bg-music');
+let musicStarted = false;
 let musicPlaying = false;
 
-// Ensure it starts muted
-audio.muted = true;
-audio.pause();
+// helper to start music once
+function startMusic() {
+  if (!musicStarted) {
+    audio.muted = false;
+    audio.play().catch(err => console.error("Playback failed:", err));
+    musicStarted = true;
+    musicPlaying = true;
+    musicToggle.textContent = '🎵 Music On';
+  }
+}
 
-musicToggle.addEventListener('click', () => {
+// start music on *anywhere* click
+document.body.addEventListener('click', startMusic, { once: true });
+
+// toggle via button
+musicToggle.addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent triggering body click handler again
+
   if (!musicPlaying) {
-    audio.muted = false;   // unmute
+    audio.muted = false;
     audio.play().catch(err => console.error("Playback failed:", err));
     musicPlaying = true;
     musicToggle.textContent = '🎵 Music On';

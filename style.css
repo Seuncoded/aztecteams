@@ -594,16 +594,9 @@ footer .built span {
     font-size: 13px;
     padding: 8px;
   }
-
-  #music-toggle {
-    bottom: 15px;
-    right: 15px;
-    font-size: 12px;
-  }
 }
 
 
-/* Music toggle floating */
 /* Hero actions row */
 .hero-actions {
   display: flex;

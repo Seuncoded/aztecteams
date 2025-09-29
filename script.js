@@ -6,18 +6,50 @@ const db = supabase.createClient(supabaseUrl, supabaseKey);
 let teamData = [];
 let currentMemberName = null;
 
-/* Load JSON */
-fetch("data/team.json")
-  .then((r) => r.json())
+/* -------- Toast (non-blocking alerts) -------- */
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  if (!toast) {
+    type === "error" ? alert(message) : console.log(message);
+    return;
+  }
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+  setTimeout(() => {
+    toast.className = "toast hidden";
+  }, 3000);
+}
+
+/* -------- Load team.json -------- */
+async function loadTeamJson() {
+  const candidates = ["./data/team.json", "/data/team.json"];
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, { cache: "no-cache" });
+      if (res.ok) return await res.json();
+    } catch (e) {
+      console.warn("team.json fetch failed:", url, e);
+    }
+  }
+  throw new Error("team.json not found");
+}
+
+loadTeamJson()
   .then((data) => {
-    teamData = data;
+    teamData = data || [];
     renderTeam(teamData);
     setupFilters();
+  })
+  .catch((err) => {
+    console.error("Failed to load team.json", err);
+    showToast("⚠️ Could not load team data.", "error");
+    renderTeam([]);
   });
 
-/* Render team */
+/* -------- Render team cards -------- */
 function renderTeam(list) {
   const grid = document.getElementById("team-grid");
+  if (!grid) return;
   grid.innerHTML = "";
 
   list.forEach((member) => {
@@ -32,10 +64,10 @@ function renderTeam(list) {
         </div>
       </div>
       <div class="socials">
-        ${member.links.twitter ? `<a href="${member.links.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>` : ""}
-        ${member.links.github ? `<a href="${member.links.github}" target="_blank"><i class="fab fa-github"></i></a>` : ""}
+        ${member.links?.twitter ? `<a href="${member.links.twitter}" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>` : ""}
+        ${member.links?.github ? `<a href="${member.links.github}" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>` : ""}
       </div>
-      <p class="story">${member.story}</p>
+      <p class="story">${member.story || ""}</p>
       <button class="msg-btn" data-member-name="${member.name}">
         <i class="fa-regular fa-comment-dots"></i> Leave a Message
       </button>
@@ -45,92 +77,102 @@ function renderTeam(list) {
     `;
     grid.appendChild(card);
   });
+}
 
-  // attach events
-  document.querySelectorAll(".msg-btn").forEach((btn) => {
-    btn.addEventListener("click", () =>
-      openMessageForm(btn.dataset.memberName)
-    );
-  });
+/* -------- Event delegation for buttons -------- */
+const gridEl = document.getElementById("team-grid");
+if (gridEl) {
+  gridEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".msg-btn, .view-btn");
+    if (!btn) return;
+    const name = btn.dataset.memberName;
+    if (!name) return;
 
-  document.querySelectorAll(".view-btn").forEach((btn) => {
-    btn.addEventListener("click", () =>
-      openViewMessages(btn.dataset.memberName)
-    );
+    if (btn.classList.contains("msg-btn")) {
+      openMessageForm(name);
+    } else {
+      openViewMessages(name);
+    }
   });
 }
 
-/* Open message modal */
+/* -------- Message Modal -------- */
 function openMessageForm(memberName) {
   currentMemberName = memberName;
-  document.getElementById("modal-title").innerText = `Leave a message for ${memberName}`;
-  document.getElementById("message-modal").classList.remove("hidden");
+  const titleEl = document.getElementById("modal-title");
+  const modal = document.getElementById("message-modal");
+  if (!modal || !titleEl) return;
+  titleEl.innerText = `Leave a message for ${memberName}`;
+  modal.classList.remove("hidden");
 }
 
-/* Close modal */
-document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("message-modal").classList.add("hidden");
-});
-
-/* Send message */
-/* Send message */
-document.getElementById("sendMessage").addEventListener("click", async () => {
-  const user_name = document.getElementById("username").value.trim();
-  const content = document.getElementById("message").value.trim();
-
-  if (!user_name || !content) {
-    showToast("⚠️ Please fill all fields.", "error");
-    return;
-  }
-
-  console.log("Sending message to Supabase...");
-
-  const { error } = await db.from("aztec_messages").insert([
-    { member_name: currentMemberName, user_name, content },
-  ]);
-
-  if (error) {
-    console.error("Supabase insert error:", error);
-    showToast("❌ Error saving message.", "error");
-  } else {
-    showToast("✅ Message sent!", "success");
-
-    // reset + close modal
-    document.getElementById("message-modal").classList.add("hidden");
-    document.getElementById("username").value = "";
-    document.getElementById("message").value = "";
-  }
-
-function showToast(message, type = "success") {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.className = `toast show ${type}`;
-
-  setTimeout(() => {
-    toast.className = "toast hidden"; // hide after 3s
-  }, 3000);
+const closeModalBtn = document.getElementById("closeModal");
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", () => {
+    const modal = document.getElementById("message-modal");
+    if (modal) modal.classList.add("hidden");
+  });
 }
 
-});
+const sendBtn = document.getElementById("sendMessage");
+if (sendBtn) {
+  sendBtn.addEventListener("click", async () => {
+    const userInput = document.getElementById("username");
+    const msgInput = document.getElementById("message");
+    if (!userInput || !msgInput) return;
 
-/* Open view messages */
+    const user_name = userInput.value.trim();
+    const content = msgInput.value.trim();
+
+    if (!user_name || !content) {
+      showToast("⚠️ Please fill all fields.", "error");
+      return;
+    }
+
+    try {
+      const { error } = await db
+        .from("aztec_messages")
+        .insert([{ member_name: currentMemberName, user_name, content }]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        showToast("❌ Error saving message.", "error");
+      } else {
+        showToast("✅ Message sent!", "success");
+        const modal = document.getElementById("message-modal");
+        if (modal) modal.classList.add("hidden");
+        userInput.value = "";
+        msgInput.value = "";
+      }
+    } catch (e) {
+      console.error(e);
+      showToast("❌ Network error. Try again.", "error");
+    }
+  });
+}
+
+/* -------- View Messages Modal -------- */
 function openViewMessages(memberName) {
   currentMemberName = memberName;
-  document.getElementById("view-modal-title").innerText = `Messages for ${memberName}`;
+
+  const titleEl = document.getElementById("view-modal-title");
+  const modal = document.getElementById("view-messages-modal");
   const list = document.getElementById("messages-list");
+  if (!titleEl || !modal || !list) return;
+
+  titleEl.innerText = `Messages for ${memberName}`;
   list.innerHTML = "<p>Loading...</p>";
 
-  document.getElementById("view-messages-modal").classList.remove("hidden");
+  modal.classList.add("show");
 
-  // Fetch messages by member_name
   db.from("aztec_messages")
     .select("*")
     .eq("member_name", memberName)
     .order("created_at", { ascending: false })
     .then(({ data, error }) => {
       if (error) {
-        list.innerHTML = "<p>❌ Failed to load messages.</p>";
         console.error(error);
+        list.innerHTML = "<p>❌ Failed to load messages.</p>";
         return;
       }
 
@@ -140,32 +182,61 @@ function openViewMessages(memberName) {
       }
 
       list.innerHTML = "";
-      data.forEach(msg => {
-        const item = document.createElement("div");
-        item.className = "message-item";
-        item.innerHTML = `
-          <div class="message-header">
-            <strong class="message-user">${msg.user_name}</strong> commented on ${new Date(msg.created_at).toLocaleDateString()}
-          </div>
-          <div class="message-content">${msg.content}</div>
-        `;
-        list.appendChild(item);
-      });
+      data.forEach((msg) => list.appendChild(buildMessageItem(msg)));
+      list.scrollTop = 0; // always start from top
+    })
+    .catch((e) => {
+      console.error(e);
+      list.innerHTML = "<p>❌ Failed to load messages.</p>";
     });
 }
 
-// Close messages modal
-document.getElementById("closeViewModal").addEventListener("click", () => {
-  document.getElementById("view-messages-modal").classList.add("hidden");
-});
+function buildMessageItem(msg) {
+  const item = document.createElement("div");
+  item.className = "message-item";
 
-/* Filters */
+  const header = document.createElement("div");
+  header.className = "message-header";
+
+  const user = document.createElement("span");
+  user.className = "message-user";
+  user.textContent = msg.user_name || "Anonymous";
+
+  const date = document.createElement("span");
+  date.className = "message-date";
+  const d = new Date(msg.created_at);
+  date.textContent = `commented on ${d.toLocaleDateString()}`;
+
+  header.appendChild(user);
+  header.appendChild(document.createTextNode(" • "));
+  header.appendChild(date);
+
+  const content = document.createElement("div");
+  content.className = "message-content";
+  content.textContent = msg.content || "";
+
+  item.appendChild(header);
+  item.appendChild(content);
+
+  return item;
+}
+
+const closeViewBtn = document.getElementById("closeViewModal");
+if (closeViewBtn) {
+  closeViewBtn.addEventListener("click", () => {
+    const modal = document.getElementById("view-messages-modal");
+    if (modal) modal.classList.remove("show");
+  });
+}
+
+/* -------- Filters -------- */
 function setupFilters() {
-  document.querySelectorAll(".filters button").forEach((btn) => {
+  const filterButtons = document.querySelectorAll(".filters button");
+  if (!filterButtons || filterButtons.length === 0) return;
+
+  filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".filters button").forEach((b) =>
-        b.classList.remove("active")
-      );
+      filterButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       const filter = btn.getAttribute("data-filter");
       if (filter === "all") renderTeam(teamData);
@@ -174,7 +245,7 @@ function setupFilters() {
   });
 }
 
-/* Stats animation */
+/* -------- Stats animation -------- */
 function animateStats() {
   const counters = document.querySelectorAll(".count");
   counters.forEach((counter) => {
@@ -182,9 +253,9 @@ function animateStats() {
     const update = () => {
       const target = +counter.getAttribute("data-target");
       const current = +counter.innerText;
-      const increment = target / 200;
+      const increment = Math.max(1, Math.floor(target / 200));
       if (current < target) {
-        counter.innerText = `${Math.ceil(current + increment)}`;
+        counter.innerText = `${Math.min(target, current + increment)}`;
         setTimeout(update, 15);
       } else {
         counter.innerText = target;
@@ -196,46 +267,54 @@ function animateStats() {
 
 const statsSection = document.getElementById("stats");
 let statsStarted = false;
-window.addEventListener("scroll", () => {
-  if (!statsStarted && statsSection.getBoundingClientRect().top < window.innerHeight) {
-    animateStats();
-    statsStarted = true;
-  }
-});
+if (statsSection) {
+  window.addEventListener("scroll", () => {
+    if (!statsStarted && statsSection.getBoundingClientRect().top < window.innerHeight) {
+      animateStats();
+      statsStarted = true;
+    }
+  });
+}
 
-const musicToggle = document.getElementById('music-toggle');
-const audio = document.getElementById('bg-music');
+/* -------- Music -------- */
+const musicToggle = document.getElementById("music-toggle");
+const audio = document.getElementById("bg-music");
 let musicStarted = false;
 let musicPlaying = false;
 
-// helper to start music once
-function startMusic() {
-  if (!musicStarted) {
-    audio.muted = false;
-    audio.play().catch(err => console.error("Playback failed:", err));
-    musicStarted = true;
-    musicPlaying = true;
-    musicToggle.textContent = '🎵 Music On';
-  }
+if (audio) {
+  document.body.addEventListener(
+    "click",
+    () => {
+      if (!musicStarted) {
+        audio.muted = false;
+        audio
+          .play()
+          .then(() => {
+            musicStarted = true;
+            musicPlaying = true;
+            if (musicToggle) musicToggle.textContent = "🎵 Music On";
+          })
+          .catch((err) => console.warn("Autoplay blocked:", err));
+      }
+    },
+    { once: true }
+  );
 }
 
-// start music on *anywhere* click
-document.body.addEventListener('click', startMusic, { once: true });
-
-// toggle via button
-musicToggle.addEventListener('click', (e) => {
-  e.stopPropagation(); // prevent triggering body click handler again
-
-  if (!musicPlaying) {
-    audio.muted = false;
-    audio.play().catch(err => console.error("Playback failed:", err));
-    musicPlaying = true;
-    musicToggle.textContent = '🎵 Music On';
-  } else {
-    audio.pause();
-    musicPlaying = false;
-    musicToggle.textContent = '🎵 Music Off';
-  }
-});
-
-
+if (musicToggle && audio) {
+  musicToggle.addEventListener("click", (e) => {
+    e.stopPropagation();    if (!musicPlaying) {
+      audio.muted = false;
+      audio.play().then(() => {
+        musicPlaying = true;
+        musicStarted = true;
+        musicToggle.textContent = "🎵 Music On";
+      });
+    } else {
+      audio.pause();
+      musicPlaying = false;
+      musicToggle.textContent = "🎵 Music Off";
+    }
+  });
+}

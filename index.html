@@ -1,47 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AztecTeam Directory</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="icon" type="image/png" href="favicon.png" />
 
- 
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header class="hero">
-  <h1>Meet the Builders of Programmable Privacy</h1>
-  <p>The minds behind Aztec Network, Noir, and the future of private Ethereum.</p>
+  <header class="hero">
+    <h1>Meet the Builders of Programmable Privacy</h1>
+    <p>The minds behind Aztec Network, Noir, and the future of private Ethereum.</p>
 
-  <div class="hero-actions">
-    <a href="#team" class="cta-btn">Explore Team</a>
-    <button id="music-toggle" class="music-toggle">🎵 Music Off</button>
-  </div>
-</header>
-
-
+    <div class="hero-actions">
+      <a href="#team" class="cta-btn">Explore Team</a>
+      <button id="music-toggle" class="music-toggle">🎵 Music Off</button>
+    </div>
+  </header>
 
   <section id="team" class="directory">
-    <!--<div class="filter-bar">
-      <div class="filters">
-        <button data-filter="all" class="active">All</button>
-        <button data-filter="Leadership">Leadership</button>
-        <button data-filter="Product">Product</button>
-        <button data-filter="DevRel">DevRel</button>
-        <button data-filter="Business">Business</button>
-        <button data-filter="Marketing">Marketing</button>
-        <button data-filter="Legal">Legal</button>
-        <button data-filter="Community">Community</button>
-      </div>
-    </div>-->
     <div id="team-grid" class="grid"></div>
   </section>
 
+  <!-- Optional stats section (kept for your counters) -->
+  <section id="stats" class="stats">
+    <div class="stat"><span class="count" data-target="8">8</span>+ years of research</div>
+    <div class="stat"><span class="count" data-target="20">20</span>+ builders</div>
+    <div class="stat"><span class="count" data-target="1000000">1000000</span>+ private transactions</div>
+  </section>
 
-  <!-- Message Modal -->
+  <!-- Toast (styled, non-blocking alert) -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Leave a message modal -->
   <div id="message-modal" class="modal hidden">
     <div class="modal-content">
       <h2 id="modal-title">Leave a message</h2>
@@ -54,19 +48,17 @@
     </div>
   </div>
 
- 
+  <!-- View messages modal (centered box, upgraded design) -->
   <div id="view-messages-modal" class="modal hidden">
-    <div class="modal-content">
+    <div class="modal-content view-content">
       <h2 id="view-modal-title">Messages</h2>
-      <div id="messages-list" class="messages-list"></div>
+      <div id="messages-list"></div>
       <button id="closeViewModal" class="close-btn">Close</button>
     </div>
   </div>
 
-
-<audio id="bg-music" src="assets/music.mp3" autoplay loop muted></audio>
-
-<div id="toast" class="toast hidden"></div>
+  <!-- Background music (autoplay once user interacts) -->
+  <audio id="bg-music" src="assets/music.mp3" preload="auto" autoplay loop muted></audio>
 
   <footer>
     <p class="built">⚡ Built by <span>Seuncoded</span></p>

@@ -6,7 +6,7 @@ const db = supabase.createClient(supabaseUrl, supabaseKey);
 let teamData = [];
 let currentMemberName = null;
 
-/* -------- Toast (non-blocking alerts) -------- */
+
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
   if (!toast) {
@@ -20,7 +20,7 @@ function showToast(message, type = "success") {
   }, 3000);
 }
 
-/* -------- Load team.json -------- */
+
 async function loadTeamJson() {
   const candidates = ["./data/team.json", "/data/team.json"];
   for (const url of candidates) {
@@ -46,7 +46,7 @@ loadTeamJson()
     renderTeam([]);
   });
 
-/* -------- Render team cards -------- */
+
 function renderTeam(list) {
   const grid = document.getElementById("team-grid");
   if (!grid) return;
@@ -79,7 +79,7 @@ function renderTeam(list) {
   });
 }
 
-/* -------- Event delegation for buttons -------- */
+
 const gridEl = document.getElementById("team-grid");
 if (gridEl) {
   gridEl.addEventListener("click", (e) => {
@@ -96,7 +96,7 @@ if (gridEl) {
   });
 }
 
-/* -------- Message Modal -------- */
+
 function openMessageForm(memberName) {
   currentMemberName = memberName;
   const titleEl = document.getElementById("modal-title");
@@ -151,7 +151,7 @@ if (sendBtn) {
   });
 }
 
-/* -------- View Messages Modal -------- */
+
 function openViewMessages(memberName) {
   currentMemberName = memberName;
 
@@ -183,7 +183,7 @@ function openViewMessages(memberName) {
 
       list.innerHTML = "";
       data.forEach((msg) => list.appendChild(buildMessageItem(msg)));
-      list.scrollTop = 0; // always start from top
+      list.scrollTop = 0; 
     })
     .catch((e) => {
       console.error(e);
@@ -229,7 +229,7 @@ if (closeViewBtn) {
   });
 }
 
-/* -------- Filters -------- */
+
 function setupFilters() {
   const filterButtons = document.querySelectorAll(".filters button");
   if (!filterButtons || filterButtons.length === 0) return;
@@ -245,7 +245,7 @@ function setupFilters() {
   });
 }
 
-/* -------- Stats animation -------- */
+
 function animateStats() {
   const counters = document.querySelectorAll(".count");
   counters.forEach((counter) => {
@@ -276,7 +276,7 @@ if (statsSection) {
   });
 }
 
-/* -------- Music -------- */
+
 const musicToggle = document.getElementById("music-toggle");
 const audio = document.getElementById("bg-music");
 let musicStarted = false;

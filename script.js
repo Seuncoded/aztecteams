@@ -6,7 +6,6 @@ const db = supabase.createClient(supabaseUrl, supabaseKey);
 let teamData = [];
 let currentMemberName = null;
 
-
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
   if (!toast) {
@@ -19,7 +18,6 @@ function showToast(message, type = "success") {
     toast.className = "toast hidden";
   }, 3000);
 }
-
 
 async function loadTeamJson() {
   const candidates = ["./data/team.json", "/data/team.json"];
@@ -46,6 +44,18 @@ loadTeamJson()
     renderTeam([]);
   });
 
+function getInitials(name = "") {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const firstTwo = parts.slice(0, 2).map(p => p[0]);
+  return (firstTwo.join('') || (name[0] || '?')).toUpperCase();
+}
+
+function createFallback(initials) {
+  const div = document.createElement("div");
+  div.className = "avatar-fallback";
+  div.textContent = initials;
+  return div;
+}
 
 function renderTeam(list) {
   const grid = document.getElementById("team-grid");
@@ -55,9 +65,13 @@ function renderTeam(list) {
   list.forEach((member) => {
     const card = document.createElement("div");
     card.className = "card";
+
+    const initials = getInitials(member.name);
+
     card.innerHTML = `
       <div class="card-head">
-        <img src="${member.avatar_url}" alt="${member.name}" />
+        <img src="${member.avatar_url}" alt="${member.name}" 
+          onerror="this.onerror=null; this.replaceWith(createFallback('${initials}'));" />
         <div>
           <div class="name">${member.name}</div>
           <div class="meta">${member.role_title} · ${member.department}</div>
@@ -79,7 +93,6 @@ function renderTeam(list) {
   });
 }
 
-
 const gridEl = document.getElementById("team-grid");
 if (gridEl) {
   gridEl.addEventListener("click", (e) => {
@@ -95,7 +108,6 @@ if (gridEl) {
     }
   });
 }
-
 
 function openMessageForm(memberName) {
   currentMemberName = memberName;
@@ -150,7 +162,6 @@ if (sendBtn) {
     }
   });
 }
-
 
 function openViewMessages(memberName) {
   currentMemberName = memberName;
@@ -208,7 +219,6 @@ function buildMessageItem(msg) {
   date.textContent = `commented on ${d.toLocaleDateString()}`;
 
   header.appendChild(user);
-  header.appendChild(document.createTextNode(" • "));
   header.appendChild(date);
 
   const content = document.createElement("div");
@@ -229,7 +239,6 @@ if (closeViewBtn) {
   });
 }
 
-
 function setupFilters() {
   const filterButtons = document.querySelectorAll(".filters button");
   if (!filterButtons || filterButtons.length === 0) return;
@@ -244,7 +253,6 @@ function setupFilters() {
     });
   });
 }
-
 
 function animateStats() {
   const counters = document.querySelectorAll(".count");
@@ -276,7 +284,6 @@ if (statsSection) {
   });
 }
 
-
 const musicToggle = document.getElementById("music-toggle");
 const audio = document.getElementById("bg-music");
 let musicStarted = false;
@@ -304,7 +311,8 @@ if (audio) {
 
 if (musicToggle && audio) {
   musicToggle.addEventListener("click", (e) => {
-    e.stopPropagation();    if (!musicPlaying) {
+    e.stopPropagation();    
+    if (!musicPlaying) {
       audio.muted = false;
       audio.play().then(() => {
         musicPlaying = true;
@@ -315,6 +323,17 @@ if (musicToggle && audio) {
       audio.pause();
       musicPlaying = false;
       musicToggle.textContent = "🎵 Music Off";
+    }
+  });
+}
+
+function enforceAvatarFallback(img, name) {
+  // If the image loads but is actually the ugly default face,
+  // detect and replace it.
+  img.addEventListener("load", () => {
+    // Unavatar "fails" but returns a 1x1 or fallback image
+    if (img.naturalWidth <= 1 || img.src.includes("unavatar.io/fallback")) {
+      img.replaceWith(createFallback(getInitials(name)));
     }
   });
 }

@@ -66,6 +66,44 @@ body::after {
   position: relative;
   z-index: 1;
 }
+
+
+.card img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #D4FF28;
+  box-shadow: 0 0 6px #FF2DF4, 0 0 12px #D4FF28;
+  margin-bottom: 12px;
+  object-fit: cover;            
+}
+
+
+.avatar-fallback {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1400;
+  background: #c6ff00;   /* neon green bg */
+  border: 2px solid #FF2DF4;
+  box-shadow: 0 0 6px #FF2DF4, 0 0 12px #D4FF28;
+}
+
+/* Keep mobile sizes in sync */
+@media (max-width: 768px) {
+  .card img,
+  .avatar-fallback {
+    width: 55px;
+    height: 55px;
+  }
+}
+
 .card {
   background: rgba(26,20,0,.75);
   padding: 24px;
@@ -174,7 +212,6 @@ footer .built span { color: #D4FF28; font-weight: 700; }
   margin-bottom: 14px;
 }
 
-/* Scrollable container */
 #messages-list {
   flex: 1;
   overflow-y: auto;
@@ -182,9 +219,7 @@ footer .built span { color: #D4FF28; font-weight: 700; }
   padding-right: 6px;
 }
 
-/* Individual message card */
-/* Individual message card */
-/* Individual message card */
+
 .message-item {
   background: #222;
   border: 1px solid #333;
@@ -192,17 +227,15 @@ footer .built span { color: #D4FF28; font-weight: 700; }
   margin-bottom: 14px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0,0,0,.35);
-  text-align: left;   /* ✅ force everything left-aligned */
+  text-align: left;   
 }
 
-/* Header: username + date */
-/* Kill the dot completely */
+
 .comment-meta .dot {
   display: none !important;
 }
 
-/* Redesigned message header */
-/* ✅ Hide the annoying dot completely */
+
 .comment-meta .dot {
   display: none !important;
   visibility: hidden !important;
@@ -211,7 +244,7 @@ footer .built span { color: #D4FF28; font-weight: 700; }
   overflow: hidden !important;
 }
 
-/* Redesigned header (username + date bar) */
+
 .message-header {
   display: flex;
   justify-content: space-between;

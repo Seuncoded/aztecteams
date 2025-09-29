@@ -433,11 +433,14 @@ footer .built span {
 
 
 .message-item {
+  background: #111;
   border: 1px solid #333;
-  border-radius: 6px;
-  background: #1a1a1a;
-  margin-bottom: 1rem; 
-  text-align: left;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 12px;
+  color: #fff;
+  word-wrap: break-word; /* force wrap long text */
+  overflow-wrap: break-word; /* modern browsers */
 }
 .message-header {
   background: #111;
@@ -658,4 +661,36 @@ footer .built span {
     padding: 8px;
   }
 }
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(26, 20, 0, 0.95);
+  color: #D4FF28;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 0 15px #FF2DF4, 0 0 25px #D4FF28;
+  z-index: 3000;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.4s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success {
+  border: 1px solid #D4FF28;
+  color: #D4FF28;
+}
+
+.toast.error {
+  border: 1px solid #FF2DF4;
+  color: #FF2DF4;
+}
+
 

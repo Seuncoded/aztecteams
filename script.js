@@ -73,12 +73,13 @@ document.getElementById("closeModal").addEventListener("click", () => {
 });
 
 /* Send message */
+/* Send message */
 document.getElementById("sendMessage").addEventListener("click", async () => {
   const user_name = document.getElementById("username").value.trim();
   const content = document.getElementById("message").value.trim();
 
   if (!user_name || !content) {
-    alert("Please fill all fields.");
+    showToast("⚠️ Please fill all fields.", "error");
     return;
   }
 
@@ -90,13 +91,26 @@ document.getElementById("sendMessage").addEventListener("click", async () => {
 
   if (error) {
     console.error("Supabase insert error:", error);
-    alert("❌ Error saving message. Check console.");
+    showToast("❌ Error saving message.", "error");
   } else {
-    alert("✅ Message sent!");
+    showToast("✅ Message sent!", "success");
+
+    // reset + close modal
     document.getElementById("message-modal").classList.add("hidden");
     document.getElementById("username").value = "";
     document.getElementById("message").value = "";
   }
+
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.className = "toast hidden"; // hide after 3s
+  }, 3000);
+}
+
 });
 
 /* Open view messages */

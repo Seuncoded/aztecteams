@@ -36,6 +36,15 @@
     "story": "Claire is the storyteller behind Aztec. She translates complex cryptography into narratives that resonate with people and helps the world see why privacy on-chain matters."
   },
   {
+    "name": "Roberto",
+    "handle": "realRoberto38",
+    "role_title": "Community Lead",
+    "department": "Community",
+    "avatar_url": "https://unavatar.io/twitter/realRoberto38",
+    "links": { "twitter": "https://twitter.com/realRoberto38", "github": "" },
+    "story": "Roberto is Aztec’s community lead. He connects with users daily, builds trust, and ensures the community has a voice in shaping the future of private Ethereum."
+  },
+  {
     "name": "Andre Omietanski",
     "handle": "punk6052",
     "role_title": "General Counsel",
@@ -178,14 +187,5 @@
     "avatar_url": "https://unavatar.io/twitter/_saleel",
     "links": { "twitter": "https://twitter.com/_saleel", "github": "https://github.com/saleel" },
     "story": "Saleel is both an engineer and DevRel. He codes, teaches, and supports builders who are experimenting with privacy tech and bringing Noir to life."
-  },
-  {
-    "name": "Roberto",
-    "handle": "realRoberto38",
-    "role_title": "Community Lead",
-    "department": "Community",
-    "avatar_url": "https://unavatar.io/twitter/realRoberto38",
-    "links": { "twitter": "https://twitter.com/realRoberto38", "github": "" },
-    "story": "Roberto is Aztec’s community lead. He connects with users daily, builds trust, and ensures the community has a voice in shaping the future of private Ethereum."
   }
 ]
